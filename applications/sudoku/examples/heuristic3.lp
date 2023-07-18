@@ -1,5 +1,6 @@
 #const k=3.
 index(1..k*k).
+block_index(0..k-1).
 value(U) :- index(U).
 
 % There is exactly one value in each cell
@@ -9,14 +10,11 @@ value(U) :- index(U).
 % Each value appears exactly once in each column
 1 { solution(R,C,U) : index(R) } 1 :- index(C), value(U).
 
-% Each value appears at most once in each block
-block_index(I,B) :- index(I), B = (I-1) / k.
-same_block(I1,I2) :-
-    index(I1), index(I2), block_index(I1,B), block_index(I2,B).
-:- same_block(R1,R2), same_block(C1,C2), R1 != R2,
-    solution(R1,C1,U), solution(R2,C2,U), value(U).
-:- same_block(R1,R2), same_block(C1,C2), C1 != C2,
-    solution(R1,C1,U), solution(R2,C2,U), value(U).
+% Each value appears exactly once in each block
+block_index(I, B) :- index(I), B = (I-1) / k.
+1 { solution(R,C,U) : index(R), index(C),
+    block_index(R,BR), block_index(C,BC) } 1 :-
+        block_index(BR), block_index(BC), value(U).
 
 #show solution/3.
 

@@ -20,4 +20,5 @@ same_block(I1,I2) :-
 
 #show solution/3.
 
+% Branch on negative atoms first
 #heuristic solution(R,C,U) : index(R), index(C), index(U). [10,false]
