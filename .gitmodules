@@ -1,6 +1,8 @@
 [submodule "applications/sudoku"]
 	path = applications/sudoku
 	url = https://github.com/rdehaan/solviz-sudoku
+        branch = main
 [submodule "applications/example"]
 	path = applications/example
 	url = https://github.com/rdehaan/solviz-example
+        branch = main
