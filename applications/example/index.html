@@ -1,0 +1,103 @@
+<!--
+This file is released under the MIT license.
+See LICENSE.md.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Solviz: Example</title>
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/posts.css">
+  <link rel="stylesheet" href="css/clingo.css">
+  <link rel="stylesheet" href="css/sudoku.css">
+</head>
+
+<body>
+
+  <main class="page-content" aria-label="Content">
+    <div class="wrapper">
+      <article class="post">
+
+        <header class="post-header">
+          <h1 class="post-title">Solviz: Example</h1>
+        </header>
+
+        <div class="post-content">
+          <div class="center">
+
+            <pre id="input">
+#const n = 4.
+
+% n-Queens encoding
+{ q(I,1..n) } == 1 :- I = 1..n.
+{ q(1..n,J) } == 1 :- J = 1..n.
+:- { q(D-J,J) } >= 2, D =   2..2*n.
+:- { q(D+J,J) } >= 2, D = 1-n..n-1.</pre>
+
+            <ul class="hlist">
+              <li>
+                <b>Configuration:</b>
+              </li>
+              <li>reasoning mode
+                <select id="mode">
+                  <option selected>default</option>
+                  <option>enumerate all</option>
+                </select>
+              </li>
+              <li>
+                <label>
+                  <input type="checkbox" id="pause-on-model" checked />&nbsp;pause on model
+                </label>
+              </li>
+            </ul>
+
+            <ul class="hlist">
+              <li>
+                <i>Speed:</i>
+              </li>
+              <li>
+              <select id="speed">
+                <option value="2.0">Slow</option>
+                <option value="1.0" selected>Normal</option>
+                <option value="0.5">Fast</option>
+                <option value="0.25">Very fast</option>
+                <option value="0.1">Ultra fast</option>
+                <option value="0">Instant</option>
+              </select>
+              </li>
+            </ul>
+
+            <input type="button" id="run" value="&#x25ba; Run!" onclick="solve()" disabled/>&nbsp;
+            <input type="button" id="pause" value="Pause" onclick="do_pause()" disabled/>&nbsp;
+            <input type="button" id="resume" value="Resume" onclick="do_resume()" disabled/>
+
+            <div>&nbsp;</div>
+
+            <pre id="log" class="log"></pre>
+
+            <div>&nbsp;</div>
+
+            <pre id="output" class="code"></pre>
+
+          </div>
+        </div>
+
+      </article>
+    </div>
+  </main>
+
+  <script type="text/javascript" src="js/ace.js" charset="utf-8"></script>
+  <script type="text/javascript" src="js/clingo.js" charset="utf-8"></script>
+  <script type="text/javascript" src="js/clingo-module.js" charset="utf-8"></script>
+  <script type="text/javascript" src="js/interface.js"></script>
+
+</body>
+
+</html>
