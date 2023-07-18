@@ -1,8 +1,6 @@
 MIT License
 
-Copyright (c) 2015 Jonas Ohlsson Aden
 Copyright (c) 2017 Roland Kaminski
-Copyright (c) 2019 Nicolai Jaeger
 Copyright (c) 2022 Roland Kaminski
 Copyright (c) 2023 Ronald de Haan
 
