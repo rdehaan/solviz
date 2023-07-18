@@ -35,4 +35,4 @@ Moreover, the following Javascript functions should be implemented, as these wil
 
 ## Example
 
-To see the working, there is an [example application](applications/example).
+To see the working, there is an [example application](https://github.com/rdehaan/solviz-example/).
