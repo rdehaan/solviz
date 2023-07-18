@@ -37,9 +37,9 @@ function interface_check(model) {
 function interface_on_model() {
   console.log("Interface: on_model");
 }
-function interface_on_unsat() {
-  console.log("Interface: on_unsat");
-}
+// function interface_on_unsat() {
+//   console.log("Interface: on_unsat");
+// }
 // function interface_on_finish() {
 //   console.log("Interface: on_finish");
 // }
