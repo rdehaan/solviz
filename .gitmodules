@@ -6,3 +6,7 @@
 	path = applications/example
 	url = https://github.com/rdehaan/solviz-example
         branch = main
+[submodule "applications/binary-puzzle"]
+	path = applications/binary-puzzle
+	url = https://github.com/rdehaan/solviz-binary-puzzle
+	branch = main
