@@ -8,7 +8,8 @@ The core of Solviz is a [clingo](https://github.com/potassco/clingo) web applica
 
 The easiest way to compile the clingo application to WebAssembly is the following.
 - Download a copy of the source files of [clingo](https://github.com/potassco/clingo).
-- Copy the files in the `src` directory of this repository to the `app/web` directory in the clingo source files (overwriting the files that are already there).
+- Copy the files `main.cc` and `CMakeLists.txt` in the `src` directory of this repository to the `app/web` directory in the clingo source files (overwriting the files that are already there).
+- Copy the files `clingocontrol.cc` in the `src` directory of this repository to the `libclingo/src` directory in the clingo source files (overwriting the files that are already there).
 - Compile the application using the instructions under the heading 'Compilation to Javascript' in the file `INSTALL.md` in the clingo source files.
 
 ## Usage
@@ -21,9 +22,9 @@ ccall('run', 'number', ['string', 'string', 'string'], [program, options, watche
 
 Moreover, the following Javascript functions should be implemented, as these will be called by the WebAssembly application.
 - `interface_register_watch(lit, atom)`: will be called when an atom watch is registered; `lit` is an integer indicating the solver literal and `atom` is the string representation of the atom.
-- `interface_propagate(lit, atom)` will be called when an atom is propagated; `lit` is an integer indicating the solver literal and `atom` is the string representation of the atom.
-- `interface_undo(lit, atom)` will be called when an atom assignment is being undone; `lit` is an integer indicating the solver literal and `atom` is the string representation of the atom.
-- `interface_decide()` will be called when the solver makes a decision.
+- `interface_propagate(lit)` will be called when an atom is propagated; `lit` is an integer indicating the solver literal.
+- `interface_undo(lit)` will be called when an atom assignment is being undone; `lit` is an integer indicating the solver literal.
+- `interface_decide(lit)` will be called when the solver makes a decision; `lit` is an integer indicating the solver literal.
 - `interface_check(model)` will be called when a model is found; `model` represents the found model (restricted to the watched atoms), in the form of an array of strings each representing one of the atoms.
 - `interface_start()` will be called before the solver starts the actual solving process.
 - `interface_finish()` will be called after the solver is done with the actual solving process.
