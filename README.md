@@ -7,7 +7,7 @@ The core of Solviz is a [clingo](https://github.com/potassco/clingo) web applica
 ## Compilation
 
 The easiest way to compile the clingo application to WebAssembly is the following.
-- Download a copy of the source files of [clingo](https://github.com/potassco/clingo).
+- Download a copy of the source files of version 5.6.2 of [clingo](https://github.com/potassco/clingo).
 - Copy the files `main.cc` and `CMakeLists.txt` in the `src` directory of this repository to the `app/web` directory in the clingo source files (overwriting the files that are already there).
 - Copy the files `clingocontrol.cc` in the `src` directory of this repository to the `libclingo/src` directory in the clingo source files (overwriting the files that are already there).
 - Compile the application using the instructions under the heading 'Compilation to Javascript' in the file `INSTALL.md` in the clingo source files.
