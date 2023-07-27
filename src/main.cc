@@ -53,14 +53,12 @@ void wait_for_resume() {
 class JSPropagator : public Clingo::Heuristic {
 
     std::vector<std::string> watched_predicates_;
-    std::map<int, std::string> atom_name_;
     bool watch_all_predicates_;
 
 public:
 
     JSPropagator(std::vector<std::string> watched_predicates) {
         watched_predicates_ = watched_predicates;
-        std::map<int, std::string> atom_name_;
         watch_all_predicates_ = (std::find(watched_predicates_.begin(), watched_predicates_.end(), "*") != watched_predicates_.end());
     }
 
@@ -78,8 +76,6 @@ void JSPropagator::init(Clingo::PropagateInit &init) {
             std::string atom = a.symbol().to_string();
             init.add_watch(lit);
             init.add_watch(-lit);
-            atom_name_[lit] = atom;
-            atom_name_[-lit] = "-" + atom;
 
             std::string jscommand = "interface_register_watch(" + std::to_string(lit) + ",'" + atom + "');";
             emscripten_run_script(jscommand.c_str());
@@ -94,8 +90,7 @@ EM_JS(int, get_wait_time_propagate, (), {
 
 void JSPropagator::propagate(Clingo::PropagateControl &ctl, Clingo::LiteralSpan changes) {
     for (auto &&l : changes) {
-        std::string atom = atom_name_.find(l)->second;
-        std::string jscommand = "interface_propagate(" + std::to_string(l) + ",'" + atom + "');";
+        std::string jscommand = "interface_propagate(" + std::to_string(l) + ");";
         emscripten_run_script(jscommand.c_str());
     }
 
@@ -111,8 +106,7 @@ EM_JS(int, get_wait_time_undo, (), {
 
 void JSPropagator::undo(Clingo::PropagateControl const &ctl, Clingo::LiteralSpan changes) noexcept {
     for (auto &&l : changes) {
-        std::string atom = atom_name_.find(l)->second;
-        std::string jscommand = "interface_undo(" + std::to_string(l) + ",'" + atom + "');";
+        std::string jscommand = "interface_undo(" + std::to_string(l) + ");";
         emscripten_run_script(jscommand.c_str());
     }
 
@@ -129,14 +123,10 @@ EM_JS(int, get_wait_time_check, (), {
 void JSPropagator::check(Clingo::PropagateControl &ctl) {
     std::string jscommand = "interface_check([";
     for (auto &&l : ctl.assignment()) {
-        std::map<int,std::string>::const_iterator it = atom_name_.find(l);
-        if (it != atom_name_.end()) {
-            std::string atom = it->second;
-            if (ctl.assignment().is_true(l)) {
-                jscommand += "'" + atom + "',";
-            } else {
-                jscommand += "'-" + atom + "',";
-            }
+        if (ctl.assignment().is_true(l)) {
+            jscommand += "'" + std::to_string(l) + "',";
+        } else {
+            jscommand += "'-" + std::to_string(l) + "',";
         }
     }
     jscommand.pop_back(); // remove last comma
@@ -154,9 +144,6 @@ EM_JS(int, get_wait_time_decide, (), {
 });
 
 Clingo::literal_t JSPropagator::decide(Clingo::id_t thread_id, Clingo::Assignment const &assign, Clingo::literal_t) {
-    std::string jscommand = "interface_decide();";
-    emscripten_run_script(jscommand.c_str());
-
     emscripten_sleep(get_wait_time_decide());
     wait_for_resume();
 
