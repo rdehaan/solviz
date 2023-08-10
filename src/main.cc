@@ -217,6 +217,9 @@ private:
         emscripten_run_script("interface_start();");
         JSSolveEventHandler jsseh;
         ctl.solve(Clingo::LiteralSpan{}, &jsseh, false, false).get();
+        int num_conflicts_analyzed = ctl.statistics()["solving"]["solvers"]["conflicts_analyzed"];
+        std::string jscommand = "num_learned_nogoods = " + std::to_string(num_conflicts_analyzed) + ";";
+        emscripten_run_script(jscommand.c_str());
         emscripten_run_script("interface_finish();");
     }
 };
